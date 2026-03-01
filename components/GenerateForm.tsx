@@ -436,7 +436,14 @@ function Toggle({
       htmlFor={id}
       className="flex items-center gap-3 cursor-pointer select-none group"
     >
-      <div className="relative flex items-center">
+      {/* Track + thumb rendered purely from checked prop — no CSS peer trick needed */}
+      <div
+        className={`relative w-9 h-5 rounded-full border transition-colors ${
+          checked
+            ? "bg-accent border-accent"
+            : "bg-muted border-border"
+        } ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
+      >
         <input
           type="checkbox"
           id={id}
@@ -444,10 +451,15 @@ function Toggle({
           checked={checked}
           onChange={onChange}
           disabled={disabled}
-          className="sr-only peer"
+          className="sr-only"
         />
-        <div className="w-9 h-5 rounded-full border border-border bg-muted peer-checked:bg-accent peer-checked:border-accent transition-colors" />
-        <div className="absolute left-0.5 top-0.5 w-4 h-4 rounded-full bg-muted-foreground transition-all peer-checked:translate-x-4 peer-checked:bg-accent-foreground" />
+        <div
+          className={`absolute top-0.5 w-4 h-4 rounded-full transition-all ${
+            checked
+              ? "left-[18px] bg-accent-foreground"
+              : "left-0.5 bg-muted-foreground"
+          }`}
+        />
       </div>
       <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
         {label}
